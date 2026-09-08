@@ -5,6 +5,7 @@ from .api import JobApplicationListCreateAPIView, JobApplicationDetailAPIView
 
 urlpatterns = [
     path('', views.dashboard, name='dashboard'),
+    path('accounts/register/', views.register, name='register'),
     path('applications/', views.job_list, name='job_list'),
     path('add/', views.add_application, name='add_application'),
     path('resumes/', views.resume_list, name='resume_list'),

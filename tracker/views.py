@@ -2,6 +2,40 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .models import JobApplication,Resume
+from django.contrib.auth.models import User
+from django.contrib.auth import login
+
+
+def register(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        confirm_password = request.POST.get('confirm_password')
+
+        if password != confirm_password:
+            return render(
+                request,
+                'registration/register.html',
+                {'error': 'Passwords do not match.'}
+            )
+
+        if User.objects.filter(username=username).exists():
+            return render(
+                request,
+                'registration/register.html',
+                {'error': 'Username already exists.'}
+            )
+
+        user = User.objects.create_user(
+            username=username,
+            password=password
+        )
+
+        login(request, user)
+
+        return redirect('dashboard')
+
+    return render(request, 'registration/register.html')
 
 
 @login_required
