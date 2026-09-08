@@ -1,0 +1,45 @@
+{% extends 'tracker/base.html' %}
+
+{% block title %}My Resumes{% endblock %}
+
+{% block content %}
+
+<h2>My Resumes</h2>
+
+<a href="{% url 'add_resume' %}" class="resume-add-button">
+    Add Resume
+</a>
+
+{% for resume in resumes %}
+
+    <div class="resume-card">
+        <h3>{{ resume.name }}</h3>
+        <p>Version: {{ resume.version }}</p>
+        <p>Created: {{ resume.created_at|date:"d M Y" }}</p>
+      {% if resume.is_active %}
+    <span class="active-resume-badge">Active Resume</span>
+    {% endif %}
+        {% if not resume.is_active %}
+    <form method="post" action="{% url 'set_active_resume' resume.id %}" style="display: inline;">
+        {% csrf_token %}
+        <button type="submit" class="set-active-button">Set Active</button>
+    </form>
+    {% endif %}
+        {% if resume.file %}
+    <a href="{{ resume.file.url }}" target="_blank">View Resume</a>
+    <a href="{{ resume.file.url }}" download>Download Resume</a>
+        {% endif %}
+
+    <form method="post" action="{% url 'delete_resume' resume.id %}" style="display: inline;">
+    {% csrf_token %}
+    <button type="submit">Delete Resume</button>
+    </form>
+    </div>
+
+{% empty %}
+
+    <p>No resumes added yet.</p>
+
+{% endfor %}
+
+{% endblock %}

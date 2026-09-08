@@ -1,0 +1,72 @@
+{% extends 'tracker/base.html' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+
+<h2>Job Application Dashboard</h2>
+
+<div class="dashboard-cards">
+
+    <a href="{% url 'job_list' %}" class="dashboard-card">
+    <h3>Total Applications</h3>
+    <p>{{ total }}</p>
+</a>
+
+    <a href="{% url 'job_list' %}?status=Applied" class="dashboard-card">
+    <h3>Applied</h3>
+    <p>{{ applied }}</p>
+</a>
+
+    <a href="{% url 'job_list' %}?status=Interview" class="dashboard-card">
+    <h3>Interviews</h3>
+    <p>{{ interviews }}</p>
+</a>
+
+<a href="{% url 'job_list' %}?status=Selected" class="dashboard-card">
+    <h3>Selected</h3>
+    <p>{{ selected }}</p>
+</a>
+
+<a href="{% url 'job_list' %}?status=Rejected" class="dashboard-card">
+    <h3>Rejected</h3>
+    <p>{{ rejected }}</p>
+</a>
+
+<a href="{% url 'job_list' %}?status=Withdrawn" class="dashboard-card">
+    <h3>Withdrawn</h3>
+    <p>{{ withdrawn }}</p>
+</a>    
+
+    <h2 class="recent-title">Recent Applications</h2>
+
+<div class="recent-applications">
+
+    {% for job in jobs|slice:":1" %}
+
+        <div class="recent-application">
+            <div>
+                <h3>{{ job.company }}</h3>
+                <p>{{ job.role }}</p>
+            </div>
+
+            <div>
+                <span>{{ job.status }}</span>
+                <p>{{ job.applied_date|date:"d M Y" }}</p>
+            </div>
+        </div>
+
+    {% empty %}
+
+        <p>No applications added yet.</p>
+
+    {% endfor %}
+
+</div>
+</div>
+
+    <a href="{% url 'job_list' %}" class="view-all-button">
+    View All Applications
+</a>
+
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends 'tracker/base.html' %}
+
+{% block title %}Add Resume{% endblock %}
+
+{% block content %}
+
+<div class="form-container">
+
+    <h2>Add Resume</h2>
+
+    <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <label>Resume Name</label>
+    <input type="text" name="name">
+
+    <label>Version</label>
+    <input type="text" name="version">
+
+    <label>Resume File</label>
+    <input type="file" name="file">
+        <label>
+    <input type="checkbox" name="is_active">
+    Set as Active Resume
+        </label>
+    <button type="submit">Add Resume</button>
+</form>
+
+</div>
+
+{% endblock %}

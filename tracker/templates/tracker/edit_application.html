@@ -1,0 +1,48 @@
+{% extends 'tracker/base.html' %}
+
+{% block title %}Edit Application{% endblock %}
+
+{% block content %}
+
+<div class="form-container">
+
+    <h2>Edit Job Application</h2>
+
+    <form method="post">
+
+        {% csrf_token %}
+
+        <label>Company</label>
+        <input type="text" name="company" value="{{ job.company }}" required>
+
+        <label>Role</label>
+        <input type="text" name="role" value="{{ job.role }}" required>
+
+        <label>Applied Date</label>
+        <input type="date" name="applied_date" value="{{ job.applied_date|date:'Y-m-d' }}" required>
+
+        <label>Interview Date</label>
+        <input type="date" name="interview_date" value="{{ job.interview_date|date:'Y-m-d' }}">
+
+        <label>Status</label>
+        <select name="status">
+            <option value="Applied" {% if job.status == 'Applied' %}selected{% endif %}>Applied</option>
+            <option value="Interview" {% if job.status == 'Interview' %}selected{% endif %}>Interview</option>
+            <option value="Selected" {% if job.status == 'Selected' %}selected{% endif %}>Selected</option>
+            <option value="Rejected" {% if job.status == 'Rejected' %}selected{% endif %}>Rejected</option>
+            <option value="Withdrawn" {% if job.status == 'Withdrawn' %}selected{% endif %}>Withdrawn</option>
+        </select>
+
+        <label>Job URL</label>
+        <input type="url" name="job_url" value="{{ job.job_url }}">
+
+        <label>Notes</label>
+        <textarea name="notes">{{ job.notes }}</textarea>
+
+        <button type="submit">Update Application</button>
+
+    </form>
+
+</div>
+
+{% endblock %}
